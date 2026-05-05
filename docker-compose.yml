@@ -28,11 +28,19 @@ services:
       DATABASE_URL: postgres://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
       JWT_SECRET: ${JWT_SECRET}
       PORT: 3000
-    ports:
-      - '3000:3000'
+    expose:
+      - '3000'
     volumes:
       - ./backend:/app
       - /app/node_modules
+
+  frontend:
+    build: ./frontend
+    container_name: coursesphere_web
+    depends_on:
+      - backend
+    ports:
+      - '80:80'
 
 volumes:
   pgdata:
